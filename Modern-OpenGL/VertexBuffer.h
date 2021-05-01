@@ -1,19 +1,22 @@
 #pragma once
+
 #include"pch.h"
 
+#include"ApplicationGlobals.h"
 
-class VertexBuffer {
-private:
-	float vertexBuffer[];
-public:
-	VertexBuffer() : vertexBuffer{ 1, 2, 3, 4 } { }
-	template<size_t size>
-	void vertexData(float* vb) {
-		std::cout << vb[0] << std::endl;
-		std::cout << vb[1] << std::endl;
-		std::cout << vb[2] << std::endl;
-		std::cout << vb[3] << std::endl;
-	}
-	void setBufferLayout();
-	void bind();
-};
+//file namespace
+NAMESPACE_VERTEX_BUFFER
+
+//buffer data section
+HANDLE_BUFFER_DTA
+
+
+
+
+
+
+
+FUN_END
+
+
+NAMESPACE_END	//file namespace
