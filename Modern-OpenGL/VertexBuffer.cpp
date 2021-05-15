@@ -8,6 +8,7 @@ errno_t VertexBuffer::bind()
     glEnable(GL_MULTISAMPLE);
     
     int bufferSize = this->getBufferSize();
+
     
     glGenBuffers(1, &this->points_vbo);
     GlCall(glBindBuffer(GL_ARRAY_BUFFER, this->points_vbo));
@@ -18,8 +19,8 @@ errno_t VertexBuffer::bind()
     GlCall(glEnableVertexAttribArray(0));
     
     //points normal vector
-    GlCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(2 * sizeof(float))));
-    GlCall(glEnableVertexAttribArray(1));
+    /*GlCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(2 * sizeof(float))));
+    GlCall(glEnableVertexAttribArray(1));*/
 
 
     return TASK_SUCCESS;

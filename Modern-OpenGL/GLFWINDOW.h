@@ -25,11 +25,6 @@ HANDLE_WINDOW
 
     // Init GLFW
     glfwInit();
-    // Set all the required options for GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(GLFW_WINDOW_WIDTH, GLFW_WINDOW_HEIGHT, "Hello World", NULL, NULL);
@@ -51,6 +46,8 @@ HANDLE_WINDOW
         return -1;
     }
 
+    std::cout << glGetString(GL_VERSION) << std::endl << std::endl;
+
 
     return 0;
 
@@ -67,14 +64,13 @@ HANDLE_GLF_LOOP
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        glDrawArrays(GL_POINTS, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         /* Poll for and process events */
         glfwPollEvents();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
 
         /*slow down the loop*/
         util::handleloopCount(50, false);
