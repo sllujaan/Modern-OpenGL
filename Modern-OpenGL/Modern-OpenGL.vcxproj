@@ -170,6 +170,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexBufferData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationGlobals.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexBufferData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\fragmentShader.frag" />

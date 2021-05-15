@@ -3,20 +3,14 @@
 #include"pch.h"
 
 #include"ApplicationGlobals.h"
-
-//file namespace
-NAMESPACE_VERTEX_BUFFER
-
-//buffer data section
-HANDLE_BUFFER_DTA
+#include"Renderer.h"
+#include"VertexBufferData.h"
 
 
 
-
-
-
-
-FUN_END
-
-
-NAMESPACE_END	//file namespace
+class VertexBuffer : VertexBufferData {
+private:
+    GLuint points_vbo;
+public:
+    errno_t bind();
+};

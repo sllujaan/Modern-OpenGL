@@ -13,24 +13,43 @@ NAMESPACE_GLFWINDOW
 #define GLFW_WINDOW_WIDTH 640
 #define GLFW_WINDOW_HEIGHT 480
 
+
 GLFWwindow* window;
+GLuint vbo;
+
 
 
 HANDLE_WINDOW
+       
 
-    /* Initialize the library */
-    if (!glfwInit())
-    return -1;
-
-    glfwWindowHint(GLFW_SAMPLES, 4);
+    // Init GLFW
+    glfwInit();
+    // Set all the required options for GLFW
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(GLFW_WINDOW_WIDTH, GLFW_WINDOW_HEIGHT, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
+        __debugbreak();
         return -1;
     }
+
+
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
+
+
+    if (int err = glewInit() != GLEW_OK) {
+        std::cout << glewGetErrorString(err) << std::endl;
+        __debugbreak();
+        return -1;
+    }
+
 
     return 0;
 

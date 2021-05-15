@@ -1,18 +1,15 @@
 #include"pch.h"
-
 #include"GLFWindow.h"
 #include"VertexBuffer.h"
 
-
-
-
 int main() {
 
-	GLF_WINDOW::HandleWindow();
+    GLF_WINDOW::HandleWindow();
 
-	VertexBuffer::HandleBufferData();
+    /*VertexBuffer vb;
+    vb.bind();*/
 
-	GLF_WINDOW::HandleLoop();
+    GLF_WINDOW::HandleLoop();
 
 	return 0;
 }
