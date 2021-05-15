@@ -4,6 +4,7 @@
 
 #include"ApplicationGlobals.h"
 #include"Util.h"
+#include"VertexBuffer.h"
 
 
 
@@ -61,7 +62,7 @@ HANDLE_GLF_LOOP
     while (!glfwWindowShouldClose(window))
     {
 
-        glEnable(GL_PROGRAM_POINT_SIZE);
+        //glEnable(GL_PROGRAM_POINT_SIZE);
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

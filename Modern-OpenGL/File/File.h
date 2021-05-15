@@ -26,8 +26,11 @@ public:
 	FILE() { }
 	std::string& readFile(const std::string& filePath) {
 		this->_fstream.open(filePath, std::ios::in);
-		//this->_fstream >> this->data;
-		//reset the data
+		if (this->_fstream.fail()) {
+			std::cout << "File:: (" << filePath << ") not found" << std::endl;
+			__debugbreak();
+		}
+
 		this->data = "";
 		std::string line;
 		while (std::getline(this->_fstream, line))

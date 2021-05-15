@@ -19,6 +19,8 @@ errno_t VertexBuffer::bind()
     
     //points normal vector
     GlCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(2 * sizeof(float))));
-    
+    GlCall(glEnableVertexAttribArray(1));
+
+
     return TASK_SUCCESS;
 }
