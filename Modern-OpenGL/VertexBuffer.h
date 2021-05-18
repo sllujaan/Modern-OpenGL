@@ -10,7 +10,9 @@
 
 class VertexBuffer : VertexBufferData {
 private:
-    GLuint points_vbo;
+    size_t VBOs[2], VAOs[2];
 public:
     errno_t bind();
+    size_t* getVBOs();
+    size_t* getVAOs();
 };

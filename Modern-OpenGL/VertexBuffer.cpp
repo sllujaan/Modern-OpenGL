@@ -15,7 +15,7 @@ errno_t VertexBuffer::bind()
         0.9f, -0.5f, 0.0f,  // right
         0.45f, 0.5f, 0.0f   // top 
     };
-    unsigned int VBOs[2], VAOs[2];
+
     glGenVertexArrays(2, VAOs); // we can also generate multiple VAOs or buffers at the same time
     glGenBuffers(2, VBOs);
     // first triangle setup
@@ -38,4 +38,14 @@ errno_t VertexBuffer::bind()
 
 
     return TASK_SUCCESS;
+}
+
+size_t* VertexBuffer::getVBOs()
+{
+    return this->VBOs;
+}
+
+size_t* VertexBuffer::getVAOs()
+{
+    return this->VAOs;
 }
