@@ -18,7 +18,9 @@ namespace W {
 	private:
 		GLFWwindow* window;
 	public:
+		~GLF();
 		void handleCreateWindow();
 		GLFWwindow* getWindow();
+		void handleLoop();
 	};
 }

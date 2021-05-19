@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "GLFWindow.h"
 
+W::GLF::~GLF()
+{
+    glfwTerminate();
+}
+
 void W::GLF::handleCreateWindow()
 {
     // glfw: initialize and configure
@@ -35,4 +40,25 @@ void W::GLF::handleCreateWindow()
 GLFWwindow* W::GLF::getWindow()
 {
     return this->window;
+}
+
+void W::GLF::handleLoop()
+{
+    while (!glfwWindowShouldClose(this->window))
+    {
+
+
+        // render
+        // ------
+        glClear(GL_COLOR_BUFFER_BIT);
+
+
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);	// this call should output an orange triangle
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(this->window);
+        glfwPollEvents();
+    }
 }

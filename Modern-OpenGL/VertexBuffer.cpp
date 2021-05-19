@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "VertexBuffer.h"
 
+VertexBuffer::~VertexBuffer()
+{
+    glDeleteVertexArrays(2, VAOs);
+    glDeleteBuffers(2, VBOs);
+}
+
 errno_t VertexBuffer::bind()
 {
     // set up vertex data (and buffer(s)) and configure vertex attributes

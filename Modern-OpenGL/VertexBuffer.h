@@ -12,6 +12,7 @@ class VertexBuffer : VertexBufferData {
 private:
     size_t VBOs[2], VAOs[2];
 public:
+    ~VertexBuffer();
     errno_t bind();
     size_t* getVBOs();
     size_t* getVAOs();
