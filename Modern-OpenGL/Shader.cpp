@@ -1,31 +1,24 @@
 #include "pch.h"
 #include "Shader.h"
 
-errno_t Shader::attach()
+Shader::~Shader()
 {
-    // build and compile our shader program
-    // ------------------------------------
-    // we skipped compile log checks this time for readability (if you do encounter issues, add the compile-checks! see previous code samples)
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    unsigned int fragmentShaderOrange = glCreateShader(GL_FRAGMENT_SHADER); // the first fragment shader that outputs the color orange
-    unsigned int fragmentShaderYellow = glCreateShader(GL_FRAGMENT_SHADER); // the second fragment shader that outputs the color yellow
-    unsigned int shaderProgramOrange = glCreateProgram();
-    unsigned int shaderProgramYellow = glCreateProgram(); // the second shader program
-    glShaderSource(vertexShader, 1, (const char* const*)this->readShaderFile(F::VERTEX).c_str(), NULL);
-    glCompileShader(vertexShader);
-    glShaderSource(fragmentShaderOrange, 1, (const char* const*)this->readShaderFile(F::FRAGMENT).c_str(), NULL);
-    glCompileShader(fragmentShaderOrange);
-    glShaderSource(fragmentShaderYellow, 1, (const char* const*)this->readShaderFile(F::FRAGMENT).c_str(), NULL);
-    glCompileShader(fragmentShaderYellow);
-    // link the first program object
-    glAttachShader(shaderProgramOrange, vertexShader);
-    glAttachShader(shaderProgramOrange, fragmentShaderOrange);
-    glLinkProgram(shaderProgramOrange);
-    // then link the second program object using a different fragment shader (but same vertex shader)
-    // this is perfectly allowed since the inputs and outputs of both the vertex and fragment shaders are equally matched.
-    glAttachShader(shaderProgramYellow, vertexShader);
-    glAttachShader(shaderProgramYellow, fragmentShaderYellow);
-    glLinkProgram(shaderProgramYellow);
+    /*glDeleteProgram(shaderProgramOrange);
+    glDeleteProgram(shaderProgramYellow);*/
+}
+
+errno_t Shader::attach(size_t bufferID)
+{
+    std::string vShaderStr = this->readShaderFile(F::VERTEX);
+    std::string fShaderStr = this->readShaderFile(F::FRAGMENT);
+    std::string gShaderStr = "";
+    size_t program = this->createShader(vShaderStr, fShaderStr, gShaderStr );
+
+    // now when we draw the triangle we first use the vertex and orange fragment shader from the first program
+    glUseProgram(program);
+    // draw the first triangle using the data from our first VAO
+    glBindVertexArray(bufferID);
+
     return TASK_SUCCESS;
 }
 
@@ -56,7 +49,7 @@ errno_t Shader::compileShader(unsigned int type, std::string& source)
     return id;
 }
 
-errno_t Shader::createShader(std::string vertexShader, std::string fragmentShader, std::string geometryShader)
+size_t Shader::createShader(std::string& vertexShader, std::string& fragmentShader, std::string& geometryShader)
 {
     const bool isGeometryShader = (geometryShader != "");
 
