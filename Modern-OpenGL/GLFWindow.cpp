@@ -60,5 +60,7 @@ void W::GLF::handleLoop()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(this->window);
         glfwPollEvents();
+
+        util::handleloopCount(50, true);
     }
 }
