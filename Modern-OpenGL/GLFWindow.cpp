@@ -53,8 +53,8 @@ void W::GLF::handleLoop()
         glClear(GL_COLOR_BUFFER_BIT);
 
 
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);	// this call should output an orange triangle
+        glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);	// this call should output an orange triangle
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

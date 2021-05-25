@@ -11,26 +11,31 @@ errno_t VertexBuffer::bind()
 {
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    float firstTriangle[] = {
-        -0.9f, -0.5f, 0.0f,  // left 
-        -0.0f, -0.5f, 0.0f,  // right
-        -0.45f, 0.5f, 0.0f,  // top 
-    };
+    //float firstTriangle[] = {
+    //    -0.9f, -0.5f, 0.0f,  // left 
+    //    -0.0f, -0.5f, 0.0f,  // right
+    //    -0.45f, 0.5f, 0.0f,  // top 
+    //};
+
+    float* _triangle = this->_triangle.vbo;
+    size_t _triangleSize = this->_triangle.size;
     float secondTriangle[] = {
         0.0f, -0.5f, 0.0f,  // left
         0.9f, -0.5f, 0.0f,  // right
         0.45f, 0.5f, 0.0f   // top 
     };
 
-    glGenVertexArrays(2, VAOs); // we can also generate multiple VAOs or buffers at the same time
-    glGenBuffers(2, VBOs);
+    //GlCall();
+
+    GlCall(glGenVertexArrays(2, VAOs)); // we can also generate multiple VAOs or buffers at the same time
+    GlCall(glGenBuffers(2, VBOs));
     // first triangle setup
     // --------------------
-    glBindVertexArray(VAOs[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
-    glEnableVertexAttribArray(0);
+    GlCall(glBindVertexArray(VAOs[0]));
+    GlCall(glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]));
+    GlCall(glBufferData(GL_ARRAY_BUFFER, sizeof(_triangle) * _triangleSize, _triangle, GL_STATIC_DRAW));
+    GlCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));	// Vertex attributes stay the same
+    GlCall(glEnableVertexAttribArray(0));
     // glBindVertexArray(0); // no need to unbind at all as we directly bind a different VAO the next few lines
     // second triangle setup
     // ---------------------
