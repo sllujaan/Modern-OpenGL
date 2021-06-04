@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "GLFWindow.h"
 
+//#ifdef INDEXED_BUFFER
+//#undef INDEXED_BUFFER
+//#endif // INDEXED_BUFFER
+
+
 W::GLF::~GLF()
 {
     glfwTerminate();
@@ -44,23 +49,35 @@ GLFWwindow* W::GLF::getWindow()
 
 void W::GLF::handleLoop()
 {
+    Color _color;
+
+
+
     while (!glfwWindowShouldClose(this->window))
     {
 
-
+        
         // render
         // ------
-        glClear(GL_COLOR_BUFFER_BIT);
+        /*Color c = _color.getRandomColor();
+        glClearColor(c.R, c.G, c.B, 1.0f);*/
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+#ifdef INDEXED_BUFFER
+        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr);
+#else
         glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);	// this call should output an orange triangle
+#endif
+        
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(this->window);
         glfwPollEvents();
 
-        util::handleloopCount(50, true);
+        util::handleloopCount(5, true);
+
     }
 }

@@ -12,10 +12,10 @@ errno_t Shader::attach(size_t bufferID)
     std::string vShaderStr = this->readShaderFile(F::VERTEX);
     std::string fShaderStr = this->readShaderFile(F::FRAGMENT);
     std::string gShaderStr = "";
-    size_t program = this->createShader(vShaderStr, fShaderStr, gShaderStr );
+    this->program = this->createShader(vShaderStr, fShaderStr, gShaderStr );
 
     // now when we draw the triangle we first use the vertex and orange fragment shader from the first program
-    glUseProgram(program);
+    glUseProgram(this->program);
     // draw the first triangle using the data from our first VAO
     glBindVertexArray(bufferID);
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include"pch.h"
+
 namespace MODEL {
 	struct cube
 	{
@@ -16,15 +18,18 @@ namespace MODEL {
 	{
 		static const size_t size = 18;
 		float vbo[size] = {
-			-0.5f, -0.5f, -0.5f,  // left bottom
-			-0.5f,  0.5f, -0.5f,  // left top
-			 0.5f,  0.5f, -0.5f,  // right top
+			-0.5f, -0.5f, -0.5f,  // left bottom 0
+			-0.5f,  0.5f, -0.5f,  // left top 1
+			 0.5f,  0.5f, -0.5f,  // right top 2
 
-			-0.5f, -0.5f, -0.5f,  // left bottom
-			 0.5f, -0.5f, -0.5f,  // left top
-			 0.5f,  0.5f, -0.5f,  // right top
+			//-0.5f, -0.5f, -0.5f,  // left bottom 0
+			 0.5f, -0.5f, -0.5f,  // left top 3
+			 //0.5f,  0.5f, -0.5f,  // right top 2
 
 		};
+
+		const size_t indices[6] = {0, 1, 2, 0, 3, 2};
+		
 		
 	};
 }

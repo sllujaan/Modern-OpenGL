@@ -10,7 +10,7 @@
 
 class VertexBuffer : VertexBufferData {
 private:
-    size_t VBOs[2], VAOs[2];
+    size_t VBOs[3], VAOs[3];
 public:
     ~VertexBuffer();
     errno_t bind();

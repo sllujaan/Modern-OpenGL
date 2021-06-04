@@ -9,12 +9,17 @@
 class Shader : public F::FILE {
 private:
 	F::FILE _file;
+	size_t program;
 
 public:
 	Shader() { }
 	~Shader();
     errno_t attach(size_t bufferID);
-
+	
+	
+	size_t getProgram() {
+		return this->program;
+	}
 	std::string readVertextShaderFile() {
 		return this->_file.readShaderFile(F::VERTEX);
 	}
