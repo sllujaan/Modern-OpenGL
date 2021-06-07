@@ -9,6 +9,8 @@
 #define INDEXED_BUFFER 1
 
 
+
+
 namespace W {
 
 	struct Screen
@@ -56,7 +58,7 @@ namespace W {
 		~GLF();
 		void handleCreateWindow();
 		GLFWwindow* getWindow();
-		void handleLoop();
+		void handleLoop(size_t program);
 		
 	};
 }
