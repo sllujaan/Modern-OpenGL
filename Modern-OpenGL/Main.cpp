@@ -27,7 +27,7 @@ int main()
          0.5f,  0.5f, -0.5f,  // right top 2
 
          //-0.5f, -0.5f, -0.5f,  // left bottom 0
-         0.5f, -0.5f, -0.5f,  // left top 3
+         0.5f, -0.5f, -0.5f,  // right bottom 3
          //0.5f,  0.5f, -0.5f,  // right top 2
 
          //back rect
@@ -36,8 +36,38 @@ int main()
          0.5f,  0.5f,  0.5f,  // right top 6
 
          //-0.5f, -0.5f, -0.5f,  // left bottom 4
-         0.5f, -0.5f,  0.5f,  // left top 7
+         0.5f, -0.5f,  0.5f,  // right bottom top 7
          //0.5f,  0.5f, -0.5f,  // right top 6
+
+
+         //left rect
+        //-0.5f, -0.5f, -0.5f,  // left bottom 0
+        //-0.5f,  0.5f, -0.5f,  // left top 1
+        //-0.5f, -0.5f,  0.5f,  // left bottom 4
+
+        //-0.5f,  0.5f, -0.5f,  // left top 1
+        //-0.5f, -0.5f,  0.5f,  // left bottom 4
+        //-0.5f,  0.5f,  0.5f,  // left top 5
+
+
+        //  right rect
+        //0.5f,  0.5f, -0.5f,  // right top 2
+        //0.5f, -0.5f, -0.5f,  // right bottom 3
+        //0.5f, -0.5f,  0.5f,  // right bottom top 7
+
+        //0.5f, -0.5f,  0.5f,  // right bottom top 7
+        //0.5f,  0.5f,  0.5f,  // right top 6
+        //0.5f,  0.5f, -0.5f,  // right top 2
+
+
+        // top rect
+         -0.5f,  0.5f, -0.5f,  // left top 1
+         0.5f,  0.5f, -0.5f,  // right top 2
+         0.5f,  0.5f,  0.5f,  // right top 6
+
+         0.5f,  0.5f,  0.5f,  // right top 6
+         -0.5f,  0.5f,  0.5f,  // left top 5
+         -0.5f,  0.5f, -0.5f,  // left top 1
     };
 
 
@@ -53,14 +83,17 @@ int main()
     glEnableVertexAttribArray(0);
 
 
-    const size_t indices[12] = { 
+    const size_t indices[30] = { 
         0, 1, 2, 0, 3, 2,
         4, 5, 6, 4, 7, 6,
+        0, 1, 4, 1, 4, 5,
+        2, 3, 7, 7, 6, 2,
+        1, 2, 6, 6, 5, 1,
     };
     size_t ibo;
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * sizeof(size_t), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 30 * sizeof(size_t), indices, GL_STATIC_DRAW);
 
     Shader _shader;
     _shader.attach(ibo);

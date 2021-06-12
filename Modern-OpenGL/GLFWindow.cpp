@@ -69,6 +69,7 @@ void W::GLF::handleLoop(size_t program)
     Color _color2;
     glm::mat4 model(1.0f);
     const float radius = 1.0f;
+    float angle = 0.001f;
 
     model = camera(1.0f, glm::vec2(0.0f, 0.0f));
 
@@ -109,20 +110,18 @@ void W::GLF::handleLoop(size_t program)
         }
         
 
-        
-        /*float camX = sin(1) * glm::radians(radius);
-        float camZ = cos(1) * glm::radians(radius);
-        view = glm::lookAt(
-            glm::vec3(camX, 0.0f, camZ),
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        );
-        model = model * view;
-        glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(model));*/
+        //transformation--------
+        angle += 0.009f;
+        //if (angle > 0.70f) angle = 0.60f;
+        //std::cout << angle << std::endl;
+        //trans = glm::rotate(trans, angle, glm::vec3(0.5f, 1.0f, 0.5f));
+        glm::mat4 trans = camera(2.0f, glm::vec2(angle, angle));
+        glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(trans));
+        //-------------------
 
 
 #ifdef INDEXED_BUFFER
-        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, nullptr);
 #else
         glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
 #endif
