@@ -24,6 +24,12 @@ W::GLF::~GLF()
     glfwTerminate();
 }
 
+W::GLF::GLF()
+{
+    this->model = glm::mat4(1.0f);
+    this->model = camera(1.0f, glm::vec2(0.0f, 0.0f));
+}
+
 void W::GLF::handleCreateWindow()
 {
     // glfw: initialize and configure
@@ -55,6 +61,9 @@ void W::GLF::handleCreateWindow()
     }
 
     glEnable(GL_MULTISAMPLE);
+    glEnable(GL_DEPTH_TEST);
+
+    this->handleInputs();
 
 }
 
@@ -63,15 +72,13 @@ GLFWwindow* W::GLF::getWindow()
     return this->window;
 }
 
-void W::GLF::handleLoop(size_t program)
+void W::GLF::handleLoop(size_t _program)
 {
+    program = _program;
     Color _color;
     Color _color2;
-    glm::mat4 model(1.0f);
     const float radius = 1.0f;
     float angle = 0.001f;
-
-    model = camera(1.0f, glm::vec2(0.0f, 0.0f));
 
     int vertexCoordLocation = glGetUniformLocation(program, "_mat4");
     int vertexColorLocation = glGetUniformLocation(program, "_color");
@@ -79,15 +86,13 @@ void W::GLF::handleLoop(size_t program)
     glm::mat4 view = glm::mat4(1.0f);
 
     view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 3.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
 
-    //rotate the view
-    view = glm::rotate(view, 45.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+    this->model = model * view;
 
-    model = model * view;
     glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(model));
 
     size_t delay = 0;
@@ -115,15 +120,15 @@ void W::GLF::handleLoop(size_t program)
         //if (angle > 0.70f) angle = 0.60f;
         //std::cout << angle << std::endl;
         //trans = glm::rotate(trans, angle, glm::vec3(0.5f, 1.0f, 0.5f));
-        glm::mat4 trans = camera(2.0f, glm::vec2(angle, angle));
+        glm::mat4 trans = camera(1.3f, glm::vec2(angle, angle));
         glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(trans));
         //-------------------
 
 
 #ifdef INDEXED_BUFFER
-        glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
 #else
-        glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
+        glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 #endif
         
         
@@ -136,3 +141,56 @@ void W::GLF::handleLoop(size_t program)
 
     }
 }
+
+void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    std::cout << "key: " << key << std::endl;
+    glm::mat4 _model = glm::mat4(1.0f);
+    glm::mat4 view = glm::mat4(1.0f);
+    _model = camera(1.0f, glm::vec2(0.0f, 0.0f));
+
+    const float radius = 2.0f;
+    static float camX = 0.0f;
+    static float camZ = 0.0f;
+    static float camY = 0.0f;
+
+    if (key == GLFW_KEY_D && action == GLFW_REPEAT) {
+        float camX = sin(glfwGetTime()) * glm::radians(radius);
+        float camZ = cos(glfwGetTime()) * glm::radians(radius);
+
+        view = glm::lookAt(
+            glm::vec3(camX, camY, camZ),
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 1.0f, 0.0f)
+        );
+    }
+
+    if (key == GLFW_KEY_W && action == GLFW_REPEAT) {
+        float camX = sin(glfwGetTime()) * glm::radians(radius);
+        float camY = cos(glfwGetTime()) * glm::radians(radius);
+        std::cout << "----camY:== " << camY << std::endl;
+
+        view = glm::lookAt(
+            glm::vec3(camX, camY, camZ),
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 1.0f, 0.0f)
+        );
+    }
+
+    _model = _model * view;
+
+    int vertexCoordLocation = glGetUniformLocation(program, "_mat4");
+    glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(_model));
+
+    
+}
+
+void W::GLF::handleInputs()
+{
+    glfwSetKeyCallback(this->window, key_callback);
+}
+
+
+
+glm::mat4 W::GLF::model = glm::mat4(1.0f);
+size_t W::GLF::program;

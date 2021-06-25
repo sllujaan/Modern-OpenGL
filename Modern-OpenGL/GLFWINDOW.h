@@ -6,7 +6,8 @@
 #include"VertexBuffer.h"
 #include"Util.h"
 
-#define INDEXED_BUFFER 1
+//#define INDEXED_BUFFER 1
+
 
 
 
@@ -15,8 +16,8 @@ namespace W {
 
 	struct Screen
 	{
-		size_t width = 800;
-		size_t height = 600;
+		size_t width = 1280;
+		size_t height = 1024;
 	};
 	struct Color
 	{
@@ -54,7 +55,13 @@ namespace W {
 	class GLF : Screen, Color {
 	private:
 		GLFWwindow* window;
+		static glm::mat4 model;
+		static size_t program;
+
+		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		void handleInputs();
 	public:
+		GLF();
 		~GLF();
 		void handleCreateWindow();
 		GLFWwindow* getWindow();
