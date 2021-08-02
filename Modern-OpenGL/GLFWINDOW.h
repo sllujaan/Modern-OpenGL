@@ -5,11 +5,13 @@
 #include"ApplicationGlobals.h"
 #include"VertexBuffer.h"
 #include"Util.h"
+#include"MVP/MVP.h"
+#include"Camera/Camera.h"
 
 //#define INDEXED_BUFFER 1
 
-
-
+static Mvp mvp;
+static Camera cam;
 
 
 namespace W {
@@ -55,7 +57,6 @@ namespace W {
 	class GLF : Screen, Color {
 	private:
 		GLFWwindow* window;
-		static glm::mat4 model;
 		static size_t program;
 
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

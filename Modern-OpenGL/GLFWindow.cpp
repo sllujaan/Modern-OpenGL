@@ -26,8 +26,7 @@ W::GLF::~GLF()
 
 W::GLF::GLF()
 {
-    this->model = glm::mat4(1.0f);
-    this->model = camera(1.0f, glm::vec2(0.0f, 0.0f));
+    mvp.model = camera(0.5f, glm::vec2(0.0f, 0.0f));
 }
 
 void W::GLF::handleCreateWindow()
@@ -80,20 +79,22 @@ void W::GLF::handleLoop(size_t _program)
     const float radius = 1.0f;
     float angle = 0.001f;
 
+    int vlModel = glGetUniformLocation(program, "model");
+    int vlView = glGetUniformLocation(program, "view");
+    int vlProjection = glGetUniformLocation(program, "projection");
     int vertexCoordLocation = glGetUniformLocation(program, "_mat4");
     int vertexColorLocation = glGetUniformLocation(program, "_color");
     //glUniformMatrix4fv(vertexColorLocation, 1, GL_FALSE, glm::value_ptr(model));
-    glm::mat4 view = glm::mat4(1.0f);
 
-    view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 1.0f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f)
+    mvp.view = glm::lookAt(
+        cam.cameraPos,
+        cam.cameraFront,
+        cam.cameraUp
     );
 
-    this->model = model * view;
+    mvp.model *= mvp.view;
 
-    glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(mvp.model));
 
     size_t delay = 0;
     Color _c = _color.getRandomColor();
@@ -101,28 +102,14 @@ void W::GLF::handleLoop(size_t _program)
     while (!glfwWindowShouldClose(this->window))
     {
 
-        // render
-        // ------
-        Color c = _color.getRandomColor();
-        glClearColor(c.R, c.G, c.B, 1.0f);
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        delay++;
-        if (delay > 50) {
-            Color _c = _color2.getRandomColor();
-            glUniform3f(vertexColorLocation, _c.R, _c.G, _c.B);
-        }
-        
 
-        //transformation--------
-        angle += 0.009f;
-        //if (angle > 0.70f) angle = 0.60f;
-        //std::cout << angle << std::endl;
-        //trans = glm::rotate(trans, angle, glm::vec3(0.5f, 1.0f, 0.5f));
-        glm::mat4 trans = camera(1.3f, glm::vec2(angle, angle));
-        glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(trans));
-        //-------------------
+        //update model view projection
+        glUniformMatrix4fv(vlModel, 1, GL_FALSE, glm::value_ptr(mvp.model));
+        glUniformMatrix4fv(vlView, 1, GL_FALSE, glm::value_ptr(mvp.view));
+        glUniformMatrix4fv(vlProjection, 1, GL_FALSE, glm::value_ptr(mvp.projection));
+      
+
 
 
 #ifdef INDEXED_BUFFER
@@ -144,46 +131,29 @@ void W::GLF::handleLoop(size_t _program)
 
 void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    std::cout << "key: " << key << std::endl;
-    glm::mat4 _model = glm::mat4(1.0f);
-    glm::mat4 view = glm::mat4(1.0f);
-    _model = camera(1.0f, glm::vec2(0.0f, 0.0f));
+    const float cameraSpeed = 0.05f; // adjust accordingly
 
-    const float radius = 2.0f;
-    static float camX = 0.0f;
-    static float camZ = 0.0f;
-    static float camY = 0.0f;
 
-    if (key == GLFW_KEY_D && action == GLFW_REPEAT) {
-        float camX = sin(glfwGetTime()) * glm::radians(radius);
-        float camZ = cos(glfwGetTime()) * glm::radians(radius);
-
-        view = glm::lookAt(
-            glm::vec3(camX, camY, camZ),
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        );
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        std::cout << "---------W" << std::endl;
+       cam.cameraPos += cameraSpeed * cam.cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        std::cout << "---------S" << std::endl;
+        cam.cameraPos -= (cameraSpeed * cam.cameraFront);
     }
 
-    if (key == GLFW_KEY_W && action == GLFW_REPEAT) {
-        float camX = sin(glfwGetTime()) * glm::radians(radius);
-        float camY = cos(glfwGetTime()) * glm::radians(radius);
-        std::cout << "----camY:== " << camY << std::endl;
 
-        view = glm::lookAt(
-            glm::vec3(camX, camY, camZ),
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        );
-    }
+    mvp.view = glm::lookAt(
+        cam.cameraPos,
+        cam.cameraFront,
+        cam.cameraUp
+    );
 
-    _model = _model * view;
-
-    int vertexCoordLocation = glGetUniformLocation(program, "_mat4");
-    glUniformMatrix4fv(vertexCoordLocation, 1, GL_FALSE, glm::value_ptr(_model));
-
+    mvp.model *= mvp.view;
     
 }
+
 
 void W::GLF::handleInputs()
 {
@@ -192,5 +162,4 @@ void W::GLF::handleInputs()
 
 
 
-glm::mat4 W::GLF::model = glm::mat4(1.0f);
 size_t W::GLF::program;
