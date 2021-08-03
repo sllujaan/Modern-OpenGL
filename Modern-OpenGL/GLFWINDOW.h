@@ -1,17 +1,13 @@
 #pragma once
 
 #include"pch.h"
-
+#include"Globals.h"
 #include"ApplicationGlobals.h"
 #include"VertexBuffer.h"
 #include"Util.h"
-#include"MVP/MVP.h"
-#include"Camera/Camera.h"
+
 
 //#define INDEXED_BUFFER 1
-
-static Mvp mvp;
-static Camera cam;
 
 
 namespace W {

@@ -1,5 +1,7 @@
 #include"pch.h"
 
+#include"Globals.h"
+#include"Main2.h"
 #include"GLFWindow.h"
 #include"VertexBuffer.h"
 #include"Shader.h"
@@ -11,10 +13,13 @@
 
 int main()
 {
+    //intialize main2 thread
+    std::thread _thread(main2);
+
     W::GLF _glf;
     _glf.handleCreateWindow();
     GLFWwindow* window = _glf.getWindow();
-
+    GLF_WINDOW = window;
 
     /*VertexBuffer _vertextBuffer;
     _vertextBuffer.bind();
@@ -184,6 +189,10 @@ int main()
 
     // render loop
     _glf.handleLoop(program);
+
+
+    SHOULD_CLOSE_ALL_THREADS = true;
+    _thread.join();
 
     return 0;
 }

@@ -124,15 +124,15 @@ void W::GLF::handleLoop(size_t _program)
         glfwSwapBuffers(this->window);
         glfwPollEvents();
 
-        util::handleloopCount(20, true);
+        util::handleloopCount(20, false);
 
     }
 }
 
 void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    const float cameraSpeed = 0.05f; // adjust accordingly
-
+    const float cameraSpeed = 0.001f; // adjust accordingly
+    static int frameCount = 0;
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         std::cout << "---------W" << std::endl;
@@ -166,7 +166,7 @@ void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action,
 
 void W::GLF::handleInputs()
 {
-    glfwSetKeyCallback(this->window, key_callback);
+    //glfwSetKeyCallback(this->window, key_callback);
 }
 
 

@@ -180,8 +180,10 @@
     <ClInclude Include="ApplicationGlobals.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="File\File.h" />
+    <ClInclude Include="GlfEvents.h" />
     <ClInclude Include="GLFWindow.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Main2.h" />
     <ClInclude Include="MVP\MVP.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer.h" />
