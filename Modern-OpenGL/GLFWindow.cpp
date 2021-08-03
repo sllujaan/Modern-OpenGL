@@ -137,20 +137,29 @@ void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action,
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         std::cout << "---------W" << std::endl;
        cam.cameraPos += cameraSpeed * cam.cameraFront;
+       
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
         std::cout << "---------S" << std::endl;
         cam.cameraPos -= (cameraSpeed * cam.cameraFront);
     }
 
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        std::cout << "---------A" << std::endl;
+        cam.cameraPos -= glm::normalize(glm::cross(cam.cameraFront, cam.cameraUp)) * cameraSpeed;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        std::cout << "---------D" << std::endl;
+        cam.cameraPos += glm::normalize(glm::cross(cam.cameraFront, cam.cameraUp)) * cameraSpeed;
+    }
+
 
     mvp.view = glm::lookAt(
         cam.cameraPos,
-        cam.cameraFront,
+        cam.cameraPos + cam.cameraFront,
         cam.cameraUp
     );
-
-    mvp.model *= mvp.view;
     
 }
 
