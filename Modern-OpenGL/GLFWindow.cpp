@@ -131,7 +131,7 @@ void W::GLF::handleLoop(size_t _program)
 
 void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    const float cameraSpeed = 0.001f; // adjust accordingly
+    const float cameraSpeed = 0.05f; // adjust accordingly
     static int frameCount = 0;
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
@@ -163,12 +163,44 @@ void W::GLF::key_callback(GLFWwindow* window, int key, int scancode, int action,
     
 }
 
+void W::GLF::mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
+    lastX = xpos;
+    lastY = ypos;
+
+    if (mouseLeftPressed) {
+        
+
+        std::cout << xoffset << ", " << yoffset << std::endl;
+    }
+}
+
+void W::GLF::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        std::cout << "mouse left click" << std::endl;
+        mouseLeftPressed = true;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        std::cout << "mouse left released" << std::endl;
+        mouseLeftPressed = false;
+    }
+    
+}
+
 
 void W::GLF::handleInputs()
 {
-    //glfwSetKeyCallback(this->window, key_callback);
+    glfwSetKeyCallback(this->window, key_callback);
+    glfwSetCursorPosCallback(this->window, mouse_callback);
+    glfwSetMouseButtonCallback(this->window, mouse_button_callback);
 }
 
 
 
 size_t W::GLF::program;
+bool W::GLF::mouseLeftPressed = false;
+float W::GLF::lastX = 1280 / 2, W::GLF::lastY = 1024 / 2;

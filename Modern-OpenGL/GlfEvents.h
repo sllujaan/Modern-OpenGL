@@ -24,7 +24,7 @@ namespace GLF_EVENTS {
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-            std::cout << "---------D--" << std::endl;
+            std::cout << "---------D--" << glm::to_string(cam.cameraPos) << std::endl;
             cam.cameraPos += glm::normalize(glm::cross(cam.cameraFront, cam.cameraUp)) * cameraSpeed;
         }
 
